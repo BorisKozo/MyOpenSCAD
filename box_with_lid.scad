@@ -7,9 +7,12 @@ wallThickness = 2; //The thickness of the wall
 floorThickness = 1; //The thickness of the floor and lid
 
 xCompartments = 2; //Number of compartment on the width (X) axis
-yCompartments = 0;  // Number of compartments on the depth (Y) axis
+yCompartments = 1;  // Number of compartments on the depth (Y) axis
 
 dividerThickness = 1; //The thickness of the divider
+
+lidPatternCols = 5;
+lidPatternRows = 5;
 
 lidSnugness = 0.4;
 trapezoidAngle = 70;
@@ -21,12 +24,13 @@ include <MCAD/boxes.scad>
 module lidPattern(cols,rows) {
     sphereDiameter = 1;
     increment = sphereDiameter*3;
-    for ( i = [0 : cols-1]) {
-       for ( j = [0 : rows-1]) {
-           translate([j*increment, i*increment, 0])
-              sphere(d=sphereDiameter, $fn=20);
-      }   
-    }
+    translate([-(rows*sphereDiameter*increment-increment)/2,-(cols*sphereDiameter*increment-increment)/2, 0])
+        for ( i = [0 : cols-1]) {
+           for ( j = [0 : rows-1]) {
+               translate([j*increment, i*increment, 0])
+                  sphere(d=sphereDiameter, $fn=20);
+          }   
+        }
 }
 
 module lid(cutter = false) {
@@ -75,27 +79,27 @@ module lid(cutter = false) {
   translate([-lidWidth/2, 0, 0])
     // rotate the lid -90 degrees 
     rotate([-90]){
-      
-
+        difference() {
             // draw a polygon using the points above and then extrude
             // linear extrude only works in the Z axis so everything has to be rotated after
             linear_extrude(height = lidDepth, center = true) 
                 polygon([p0, p1, p2, p3], paths = [[0, 1, 2, 3]]);
-//
-  difference() {
+  
            if ( cutter == false) {
                 rotate([-90])
-                    lidPattern(3,3);
+                translate([lidWidth/2, 0, 0])
+                    lidPattern(lidPatternCols,lidPatternRows);
             }
-
-//            // add a fingernail slot for making opening the lid easier
-//            if ( cutter == false) {
-//                rotate([90])
-//                    translate([lidWidth/2, lidDepth/2-4*wallThickness, 0])
-//                        roundedBox([slotWidth, dividerThickness, floorThickness], radius = dividerThickness/2, $fn=36)
-//           }
+      
+            // add a fingernail slot for making opening the lid easier
+            if ( cutter == false) {
+                rotate([90])
+                    translate([lidWidth/2, lidDepth/2-4*wallThickness, 0])
+                        roundedBox([slotWidth, dividerThickness, floorThickness], radius = dividerThickness/2, $fn=36);
+           }
     }
-  }
+
+}
 }
 
 module basicBox(outerBox, innerBox) {
@@ -138,6 +142,27 @@ module xDividers(innerBoxDimentions) {
       
     } 
   } 
+}
+
+module yDividers(innerBoxDimentions) {
+  rows = yCompartments - 1;
+
+  // calculate the spacing of the dividers based on the dimensions of the inner box
+
+  increment = innerBoxDimentions[1]/yCompartments;
+
+  // if the number of compartments is bigger than 1, do this:
+  if ( yCompartments > 1) {
+    // this loops several times to make each divider from 1 to the number of columns
+    for ( i = [1 : rows]) {
+      // move each divider into place
+        translate([0,-innerBoxDimentions[1]/2+i*increment, 0])
+          // draw a cube - remember to remove a bit for the snuggness factor on the lid
+          cube([innerBoxDimentions[0],dividerThickness, innerBoxDimentions[2]-floorThickness-lidSnugness
+        ], center =true);
+     
+    } 
+  } 
 } 
 
 module dividedBox() {
@@ -148,10 +173,12 @@ module dividedBox() {
   basicBox(outerBox, innerBox);
     
   xDividers(innerBox);
+  yDividers(innerBox);  
 }
 
 dividedBox();
 
- translate([-boxWidth, 0, -boxHeight/2+floorThickness])
-    lid();
+translate([-boxWidth, 0, -boxHeight/2+floorThickness])
+   lid();
 
+//lidPattern(5,3);
