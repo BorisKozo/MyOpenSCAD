@@ -7,10 +7,11 @@ module space(size){
 }
 
 module pinHole(length){
+    PIN_DIAMETER = 3.2;
     rotate([0,90,0]){
-      cylinder(d=3,h=length,center=false); //The lip
+      cylinder(d=PIN_DIAMETER,h=length,center=false); //The lip
       translate([0,0,length])
-        sphere(d=3);  
+        sphere(d=PIN_DIAMETER);  
     }
 }
 

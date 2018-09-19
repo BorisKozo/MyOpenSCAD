@@ -1,4 +1,4 @@
-SHAFT_LENGTH = 25;
+SHAFT_LENGTH = 28;
 BOW_FLAT = 9;
 
 module keyShaftEnd(length){
