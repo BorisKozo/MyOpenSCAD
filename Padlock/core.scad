@@ -1,7 +1,6 @@
 $fn=100;
 CORE_HEIGHT = 16+3+25+2;
 LIP_HEIGHT = 2;
-CORE_DIAMETER = 12.6;
 SNUGNESS = 0.2;
 
 use <key.scad>
@@ -11,43 +10,44 @@ use <util.scad>
 
 
 module core(){
-    cylinder(d=CORE_DIAMETER+2,h=LIP_HEIGHT,center=false); //The lip
+    cylinder(d=coreLipDiameter(),h=LIP_HEIGHT,center=false); //The lip
     translate([0,0,LIP_HEIGHT])
-      cylinder(d=CORE_DIAMETER,h=CORE_HEIGHT,center=false); //The lip
+      cylinder(d=coreDiameter(),h=CORE_HEIGHT,center=false); //The lip
 }
 
 module cutCore(){
-    PIN_DEPTH = -9.7;
+    PIN_LENGTH = -9.7;
     difference(){
       core();
 
-      translate([PIN_DEPTH,0,7.5]) //pin 1
+      translate([PIN_LENGTH,0,pin1Depth()]) //pin 1
         pinHole(10);  
 
-      translate([PIN_DEPTH,0,12.5]) //pin 2
+      translate([PIN_LENGTH,0,pin2Depth()]) //pin 2
         pinHole(10);  
 
-      translate([PIN_DEPTH,0,17.5]) //pin 3
+      translate([PIN_LENGTH,0,pin3Depth()]) //pin 3
         pinHole(10);  
 
-      translate([PIN_DEPTH,0,22.5]) //pin 4
+      translate([PIN_LENGTH,0,pin4Depth()]) //pin 4
         pinHole(10);  
 
-      translate([PIN_DEPTH,0,27.5]) //pin 5
+      translate([PIN_LENGTH,0,pin5Depth()]) //pin 5
         pinHole(10);  
 
-      translate([-6,CORE_DIAMETER/2+1,4+25+3+3+5])  //Left bearing
+      translate([-6,coreDiameter()/2+1,4+25+3+3+5])  //Left bearing
         rotate([0,90,0])
           space(SNUGNESS)  
             bearing();
 
-      translate([-6,-CORE_DIAMETER/2-1,4+25+3+3+5]) //Right bearing
+      translate([-6,-coreDiameter()/2-1,4+25+3+3+5]) //Right bearing
         rotate([0,90,0])
           space(SNUGNESS)  
             bearing();
 
-      rotate([90,0,60])
-        translate([0,4+25+4,CORE_DIAMETER/2-8])
+     
+      rotate([90,0,60]) //Retainer position
+        translate([0,4+25+4,coreDiameter()/2-8])
           cylinder(d=2,h=8);
 
 
