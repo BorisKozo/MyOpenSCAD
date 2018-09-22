@@ -1,23 +1,25 @@
 SHAFT_LENGTH = 28;
 BOW_FLAT = 9;
+KEY_HEIGHT = 3;
 
 module keyShaftEnd(length){
     difference(){
       keyShaft(length);
-      translate([-0.1,0,length-3])
+      translate([-5,-3,length-3])
         rotate([35,0,0])
-          cube([1.7,10,10]);
-
+          cube([15,10,10]);
+     
     }
+
 }
 
 module keyShaft(length){
     linear_extrude(height=length)
-      polygon([[0,0],[0,6],[1,6],[1,4],[1.5,4],[1.5,0]]);
+      polygon([[-0.5,0],[-0.5,KEY_HEIGHT],[4.5,KEY_HEIGHT],[4.5,0],[2.8,0],[2.8,-3],[1.2,-3],[1.2,0]]);
 }
 
 module keyBow(){
-  linear_extrude(height=1.5)  
+  linear_extrude(height=KEY_HEIGHT)  
       difference(){
         circle(d=20,$fn=100); 
         translate([-10,BOW_FLAT,0])  
@@ -28,13 +30,15 @@ module keyBow(){
 }
 
 module key(){
-   translate([-3,BOW_FLAT,0]) 
-     rotate([-90,-90,0])
+   translate([-2,BOW_FLAT,KEY_HEIGHT]) 
+     rotate([-90,0,0])
        keyShaft(SHAFT_LENGTH);
-   translate([-3,BOW_FLAT+SHAFT_LENGTH-0.01,0]) 
-     rotate([-90,-90,0])
+   translate([-2,BOW_FLAT+SHAFT_LENGTH-0.01,KEY_HEIGHT]) 
+     rotate([-90,0,0])
        keyShaftEnd(4); 
    keyBow();    
 }
 
 key();
+
+//keyShaftEnd(10);

@@ -16,7 +16,7 @@ module core(){
 }
 
 module cutCore(){
-    PIN_LENGTH = -9.7;
+    PIN_LENGTH = -11;
     difference(){
       core();
 
@@ -51,9 +51,9 @@ module cutCore(){
           cylinder(d=2,h=8);
 
 
-      rotate([0,0,-90])
-        translate([-1,-3,0])
-          space(3*SNUGNESS)  
+      rotate([0,0,-90]) //Key shaft
+        translate([-2,1,0])
+          space(2*SNUGNESS)  
             keyShaft(4+25+2.5);  
     }
     
