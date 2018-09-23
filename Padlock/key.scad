@@ -5,7 +5,7 @@ KEY_HEIGHT = 3;
 module keyShaftEnd(length){
     difference(){
       keyShaft(length);
-      translate([-5,-3,length-3])
+      translate([-5,-5,length-4])
         rotate([35,0,0])
           cube([15,10,10]);
      
@@ -15,7 +15,7 @@ module keyShaftEnd(length){
 
 module keyShaft(length){
     linear_extrude(height=length)
-      polygon([[-0.5,0],[-0.5,KEY_HEIGHT],[4.5,KEY_HEIGHT],[4.5,0],[2.8,0],[2.8,-3],[1.2,-3],[1.2,0]]);
+      polygon([[-0.5,0],[-0.5,KEY_HEIGHT],[4.5,KEY_HEIGHT],[4.5,0],[2.8,0],[2.8,-3.5],[1.2,-3.5],[1.2,0]]);
 }
 
 module keyBow(){

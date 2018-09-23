@@ -1,7 +1,7 @@
 include <MCAD/boxes.scad>
 use <util.scad>
 
-$fn = 100;
+$fn = 10;
 
 PINS_HOLDER_DIAMETER = 2.2;
 
@@ -52,10 +52,10 @@ difference(){
   translate([4+10+6+coreDiameter()+6,3,10-coreDiameter()/2])
     difference(){
       space(SNUGNESS)
-        cube([10,18+27+2,padlockHeight()]);
-      translate([7,2+25,0])  
+        cube([10,18+29+2,padlockHeight()]);
+      translate([8,2+25+3,0])  
         space(SNUGNESS)
-          cube([3,2,padlockHeight()]);  
+          cube([2,2,padlockHeight()]);  
     }
   
   // Pin 1  
@@ -78,6 +78,7 @@ difference(){
   translate([0,pin5Depth(),10])
     pinHole(4+10+6+coreDiameter()/2);    
 
+  //Retainer cutout
   translate([4+10+6+coreDiameter()/2,4+25+4-1.5,10-coreDiameter()/2-2])
     space(SNUGNESS)
       cube([coreDiameter()/2+3,3.5,padlockHeight()]);

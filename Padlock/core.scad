@@ -16,7 +16,7 @@ module core(){
 }
 
 module cutCore(){
-    PIN_LENGTH = -11;
+    PIN_LENGTH = -11.2;
     difference(){
       core();
 
