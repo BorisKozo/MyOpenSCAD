@@ -1,5 +1,5 @@
 $fn=100;
-CORE_HEIGHT = 16+3+25+2;
+CORE_HEIGHT = 15+6+25+2;
 LIP_HEIGHT = 2;
 SNUGNESS = 0.2;
 
@@ -35,32 +35,32 @@ module cutCore(){
       translate([PIN_LENGTH,0,pin5Depth()]) //pin 5
         pinHole(10);  
 
-      translate([-6,coreDiameter()/2+1,4+25+3+3+5])  //Left bearing
+      translate([-6,coreDiameter()/2+1,4+25+6+3+5])  //Left bearing
         rotate([0,90,0])
           space(SNUGNESS)  
             bearing();
 
-      translate([-6,-coreDiameter()/2-1,4+25+3+3+5]) //Right bearing
+      translate([-6,-coreDiameter()/2-1,4+25+6+3+5]) //Right bearing
         rotate([0,90,0])
           space(SNUGNESS)  
             bearing();
-
-     
-      rotate([90,0,60]) //Retainer position
-        translate([0,4+25+4,coreDiameter()/2-8])
-          cylinder(d=2,h=8);
 
 
       rotate([0,0,-90]) //Key shaft
         translate([-2,1,0])
           space(2*SNUGNESS)  
-            keyShaft(4+25+2.5);  
+            keyShaft(4+25+2);  
+    
+      translate([0,0,4+25+3-0.4]) //Retainer cutout
+      difference(){
+        cylinder(d=coreLipDiameter(),h=4.6);
+        translate([0,0,-0.05]){  
+          cylinder(d2=coreDiameter(), d1=coreDiameter()-3.3,h=5.1);    
+          translate([-coreLipDiameter()/2,-coreLipDiameter()/2,0])
+            cube([coreLipDiameter()/2,coreLipDiameter(),5.1]);
+          }
+      }
     }
-    
-    
 }
 
 cutCore();
-
-//    translate([-10.5,0,0])
-//      pinHole(10);

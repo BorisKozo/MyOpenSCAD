@@ -21,7 +21,7 @@ function coreLipDiameter() = coreDiameter()+2;
 
 function padlockWidth() = 4+10+6+12.6+6+10+4;
 
-function padlockDepth() = 4+5+5+5+5+5+3+18;
+function padlockDepth() = 4+5+5+5+5+5+6+18;
 
 function padlockHeight() = 24;
 

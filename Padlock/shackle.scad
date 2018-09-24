@@ -8,7 +8,7 @@ SNUGNESS = 0.4;
 SHACKLE_WIDTH=10-2*SNUGNESS;
 INNER_RADIUS = (6+6+coreDiameter())/2+SNUGNESS;
 OUTER_RADIUS = INNER_RADIUS + SHACKLE_WIDTH;
-CATCH_LENGTH = 29;
+CATCH_LENGTH = 32;
 
 module shackleBow(height){
 
@@ -42,7 +42,6 @@ module rightSchackleArm(height, length, fullLength){
 
 module rightShackle(height, length){
   fullLength = length+18;
-  catchLength = 29;    
   
   translate([INNER_RADIUS,-fullLength,0]){  
     difference(){
