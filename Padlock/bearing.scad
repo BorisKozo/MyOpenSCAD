@@ -1,7 +1,7 @@
 BEARING_SIZE = 10;
 
 module bearing(){
-  cylinder(d=BEARING_SIZE,h=12,$fn=100);
+  cylinder(d=BEARING_SIZE-0.5,h=10,$fn=100);
 }
 
 bearing();

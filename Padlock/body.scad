@@ -1,7 +1,7 @@
 include <MCAD/boxes.scad>
 use <util.scad>
 
-$fn = 10;
+$fn = 100;
 
 PINS_HOLDER_DIAMETER = 2.2;
 
@@ -40,16 +40,16 @@ difference(){
         cylinder(d=12.6, h=(2+25+6+15));    
     
   //bearing
-  translate([4+10+1,4+25+6+3+5,10-coreDiameter()/2])
+  translate([4+10+1,4+25+6+3+5,10-coreDiameter()/2+1])
     bearingHole();
     
   //Left shackle cutout  
-  translate([4,4+25+6,10-coreDiameter()/2])
+  translate([4,4+25+6,10-coreDiameter()/2+1])
     space(SNUGNESS)
       cube([10,18,padlockHeight()]);  
 
   //Right shackle cutout
-  translate([4+10+6+coreDiameter()+6,3,10-coreDiameter()/2])
+  translate([4+10+6+coreDiameter()+6,3,10-coreDiameter()/2+1])
     difference(){
       space(SNUGNESS)
         cube([10,18+29+5,padlockHeight()]);
@@ -82,10 +82,18 @@ difference(){
   translate([4+10+6+coreDiameter()/2,4+25+3,10-coreDiameter()/2-2])
     space(2*SNUGNESS)
       cube([coreDiameter()/2+3,4,coreDiameter()+5]);
-      
+
+ //Alignment hole
+  translate([6,10, padlockHeight()-5-2]) 
+    space(2*SNUGNESS)
+      cube([10,20,2]);  
+       
   }
 //difference(){
 //  translate([4+10+6+coreDiameter()/2,4+25+4-1.5,10-coreDiameter()/2-2])
 //      cube([coreDiameter()/2+3,3.5,padlockHeight()-4]);
 //  cylinder(d=coreDiameter(),h=3.5);  
-//}
+//} 
+
+
+   
