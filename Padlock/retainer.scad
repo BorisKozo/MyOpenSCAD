@@ -5,7 +5,7 @@ $fn=100;
 
 
 difference(){
-  cube([coreDiameter()/2+3,3.95,coreDiameter()+4]);
+  cube([coreDiameter()/2+3,3.95,coreDiameter()+5]);
 
   translate([0,4,coreDiameter()/2+2])
     rotate([90,0,0]){
