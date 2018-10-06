@@ -24,9 +24,9 @@ module leftShackle(height, length){
       linear_extrude(height = height){  
         square([SHACKLE_WIDTH,fullLength]);
       }
-      translate([11,8,-1])
+      translate([11,8,0])
         space(SNUGNESS)
-          bearing(); 
+         cylinder(d=9.5,h=20);
     }
   }
 }
@@ -48,7 +48,7 @@ module rightShackle(height, length){
       rightSchackleArm(height, length, fullLength);
       translate([-1,8,-1])
         space(SNUGNESS)
-          bearing(); 
+         cylinder(d=9.5,h=20);
       translate([7,-CATCH_LENGTH+2,0])
         space(SNUGNESS)
           linear_extrude(height = height){  
