@@ -21,11 +21,14 @@ letters_color = "#FFFFFF"; // color
 rtl = false;
 
 /*[Slider]*/
-rail_length = 40;
-rail_offset = 2;
+rail_length = 25;
+rail_offset = 5;
 rail_tollerance = 0.25;
-slider_length = 20;
+slider_length = 12;
 slider_width = 8;
+slider_cuts = 4;
+slider_cut_depth = 1;
+slider_cut_width = 1;
 
 // Make sure the user supplied some text
 assert(str(text_string) != "", "Error: text_string must not be empty");
@@ -75,10 +78,12 @@ module slider_hole() {
     rotate([90,0,90])  
       linear_extrude(rail_length)
         polygon([
-                    [0-rail_tollerance,3+rail_tollerance],
-                    [1-rail_tollerance,0-rail_tollerance],
-                    [slider_width+rail_tollerance,0-rail_tollerance],
-                    [slider_width+1+rail_tollerance,3+rail_tollerance]
+                [0-rail_tollerance,0-rail_tollerance],
+                [2-rail_tollerance,2],
+    [0-rail_tollerance,4+rail_tollerance],
+    [slider_width+rail_tollerance,4+rail_tollerance],
+    [slider_width-2+rail_tollerance,2],
+    [slider_width+rail_tollerance,0-rail_tollerance]
                 ]);
 }
 
@@ -86,9 +91,23 @@ module slider() {
   translate([rail_offset,0,0])
     rotate([90,0,90])  
       linear_extrude(slider_length)
-        polygon([[0,3],[1,0],[slider_width,0],[slider_width+1,3]]);
+        polygon([
+    [0,0],
+    [2,2],
+    [0,4],
+    [slider_width,4],
+    [slider_width-2,2],
+    [slider_width,0]
+    ]);
 }
 
+module slider_cuts() {
+    dx = (slider_length - 2)/slider_cuts;
+    for (i = [0:slider_cuts]) {
+      translate([2+rail_offset+i*dx,1,0])
+        cube([slider_cut_width,slider_width-2,slider_cut_depth],false);
+    }
+} 
 
 module name_topper() {
     // Draw the colored base + tunnel
@@ -97,7 +116,10 @@ module name_topper() {
       base_with_tunnel();  
       slider_hole();
     }
+ difference() {  
     slider();
+    slider_cuts();
+ }
     // Draw the raised letters on top
     color(letters_color); 
     raised_letters();
