@@ -1,5 +1,5 @@
 /*[Name Settings]*/
-text_string    = "Mickey";
+text_string    = "Maya";
 font_name      = "Comic Neue:style=Bold";  // font
 letter_height  = 12;      // mm
 letter_depth   = 1.2;     // mm (height of raised letters above the base)
@@ -22,13 +22,16 @@ rtl = false;
 
 /*[Slider]*/
 rail_length = 25;
-rail_offset = 5;
+rail_front_offset = 5;
+rail_side_offset = 0.5;
 rail_tollerance = 0.25;
+
 slider_length = 12;
-slider_width = 8;
+slider_width = 7;
 slider_cuts = 4;
 slider_cut_depth = 1;
 slider_cut_width = 1;
+slider_cut_margin = 1.5;
 
 // Make sure the user supplied some text
 assert(str(text_string) != "", "Error: text_string must not be empty");
@@ -74,21 +77,23 @@ module raised_letters() {
 }
 
 module slider_hole() {
-  translate([rail_offset-1,0,0])
+  translate([rail_front_offset-1,rail_side_offset,0])
     rotate([90,0,90])  
       linear_extrude(rail_length)
         polygon([
-                [0-rail_tollerance,0-rail_tollerance],
+                [0-rail_tollerance*2,0-rail_tollerance],
                 [2-rail_tollerance,2],
-    [0-rail_tollerance,4+rail_tollerance],
-    [slider_width+rail_tollerance,4+rail_tollerance],
+    [0-rail_tollerance*2,4+rail_tollerance],
+    [0-rail_tollerance*2,4+rail_tollerance+0.2],
+    [slider_width+2*rail_tollerance,4+rail_tollerance+0.2],
+    [slider_width+2*rail_tollerance,4+rail_tollerance],
     [slider_width-2+rail_tollerance,2],
-    [slider_width+rail_tollerance,0-rail_tollerance]
+    [slider_width+rail_tollerance*2,0-rail_tollerance]
                 ]);
 }
 
 module slider() {
-  translate([rail_offset,0,0])
+  translate([rail_front_offset,rail_side_offset,0])
     rotate([90,0,90])  
       linear_extrude(slider_length)
         polygon([
@@ -104,24 +109,25 @@ module slider() {
 module slider_cuts() {
     dx = (slider_length - 2)/slider_cuts;
     for (i = [0:slider_cuts]) {
-      translate([2+rail_offset+i*dx,1,0])
-        cube([slider_cut_width,slider_width-2,slider_cut_depth],false);
+      translate([2+rail_front_offset+i*dx,slider_cut_margin+rail_side_offset,0])
+        cube([slider_cut_width,slider_width-2*slider_cut_margin,slider_cut_depth],false);
     }
 } 
 
 module name_topper() {
     // Draw the colored base + tunnel
-    color(base_color);
+    color(base_color)
     difference() {
       base_with_tunnel();  
       slider_hole();
     }
- difference() {  
-    slider();
-    slider_cuts();
- }
+    
+    difference() {  
+      slider();
+      slider_cuts();
+    }
     // Draw the raised letters on top
-    color(letters_color); 
+    color(letters_color)
     raised_letters();
 
 }
